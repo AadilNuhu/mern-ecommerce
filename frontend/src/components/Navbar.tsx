@@ -1,0 +1,143 @@
+import { useState } from "react";
+
+const Navbar = () => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  return (
+    <>
+      <nav className="bg-white shadow-md fixed w-full top-0 left-0 z-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between h-16 items-center">
+            {/* Logo */}
+            <div className="text-2xl font-bold  text-blue-600">Ecommerce</div>
+
+            {/* Desktop menu */}
+            <div className="hidden md:flex space-x-8">
+              <a
+                href="/"
+                className="text-gray-700 hover:text-blue-600 font-medium"
+              >
+                Home
+              </a>
+              <a
+                href="/about"
+                className="text-gray-700 hover:text-blue-600 font-medium"
+              >
+                About
+              </a>
+              <a
+                href="/products"
+                className="text-gray-700 hover:text-blue-600 font-medium"
+              >
+                Product
+              </a>
+              <a
+                href="/contact"
+                className="text-gray-700 hover:text-blue-600 font-medium"
+              >
+                Contact
+              </a>
+            </div>
+
+            {/* Mobile menu button */}
+            <div className="md:hidden">
+              <button
+                onClick={() => setIsOpen(true)}
+                type="button"
+                className="text-gray-700 hover:text-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-600"
+                aria-label="Open menu"
+              >
+                {/* Hamburger icon */}
+                <svg
+                  className="w-6 h-6"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M4 6h16M4 12h16M4 18h16"
+                  />
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </nav>
+
+      {/* Mobile menu overlay */}
+      {isOpen && (
+        <>
+          {/* Background overlay */}
+          <div
+            className="fixed inset-0 bg-black/10 bg-opacity-50 z-40"
+            onClick={() => setIsOpen(false)}
+          ></div>
+
+          {/* Sliding menu */}
+          <div className="fixed top-0 right-0 w-64 h-full bg-white shadow-lg z-50 transform transition-transform duration-300 ease-in-out">
+            <div className="flex justify-between items-center px-4 py-4 border-b">
+              <div className="text-xl font-bold text-blue-600"></div>
+              <button
+                onClick={() => setIsOpen(false)}
+                aria-label="Close menu"
+                className="text-gray-700 hover:text-blue-600 focus:outline-none"
+              >
+                {/* Close icon */}
+                <svg
+                  className="w-6 h-6"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M6 18L18 6M6 6l12 12"
+                  />
+                </svg>
+              </button>
+            </div>
+            <nav className="flex flex-col mt-4 space-y-4 px-4">
+              <a
+                href="/"
+                className="text-gray-700 hover:text-blue-600 font-medium"
+                onClick={() => setIsOpen(false)}
+              >
+                Home
+              </a>
+              <a
+                href="/about"
+                className="text-gray-700 hover:text-blue-600 font-medium"
+                onClick={() => setIsOpen(false)}
+              >
+                About
+              </a>
+              <a
+                href="/products"
+                className="text-gray-700 hover:text-blue-600 font-medium"
+                onClick={() => setIsOpen(false)}
+              >
+                Product
+              </a>
+              <a
+                href="/contact"
+                className="text-gray-700 hover:text-blue-600 font-medium"
+                onClick={() => setIsOpen(false)}
+              >
+                Contact
+              </a>
+            </nav>
+          </div>
+        </>
+      )}
+    </>
+  );
+};
+
+export default Navbar;
