@@ -1,69 +1,54 @@
-# React + TypeScript + Vite
+# MERN E‑commerce (Frontend + Backend)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A small e‑commerce frontend built with React + TypeScript + Vite and a placeholder backend directory.
 
-Currently, two official plugins are available:
+Quick highlights:
+- Frontend: Vite + React (TSX), Tailwind CSS, React Router.
+- Backend: placeholder directory with basic package.json.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Project structure (important files)
+- Frontend root: [frontend/package.json](frontend/package.json)
+- Vite config: [frontend/vite.config.ts](frontend/vite.config.ts)
+- TypeScript configs: [frontend/tsconfig.app.json](frontend/tsconfig.app.json), [frontend/tsconfig.node.json](frontend/tsconfig.node.json), [frontend/tsconfig.json](frontend/tsconfig.json)
 
-## Expanding the ESLint configuration
+Frontend entry & app
+- App entry: [frontend/src/main.tsx](frontend/src/main.tsx)
+- Root app: [`App`](frontend/src/App.tsx) — [frontend/src/App.tsx](frontend/src/App.tsx)
+- Routes are configured inside [`App`](frontend/src/App.tsx)
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+Key UI components & pages
+- [`Navbar`](frontend/src/components/Navbar.tsx) — [frontend/src/components/Navbar.tsx](frontend/src/components/Navbar.tsx)
+- [`Footer`](frontend/src/components/Footer.tsx) — [frontend/src/components/Footer.tsx](frontend/src/components/Footer.tsx)
+- Pages:
+  - [`Home`](frontend/src/pages/Home.tsx) — [frontend/src/pages/Home.tsx](frontend/src/pages/Home.tsx)
+  - [`About`](frontend/src/pages/About.tsx) — [frontend/src/pages/About.tsx](frontend/src/pages/About.tsx)
+  - [`FeaturedProducts`](frontend/src/pages/FeaturedProducts.tsx) — [frontend/src/pages/FeaturedProducts.tsx](frontend/src/pages/FeaturedProducts.tsx)
+  - [`Products`](frontend/src/pages/Products.tsx) — [frontend/src/pages/Products.tsx](frontend/src/pages/Products.tsx)
+  - [`Contact`](frontend/src/pages/Contact.tsx) — [frontend/src/pages/Contact.tsx](frontend/src/pages/Contact.tsx)
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+Styling & assets
+- Tailwind import: [frontend/src/index.css](frontend/src/index.css)
+- App-specific styles: [frontend/src/App.css](frontend/src/App.css)
+- Assets: [frontend/src/assets](frontend/src/assets) (backgrounds and images referenced from pages)
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
+Backend
+- Backend placeholder: [backend/package.json](backend/package.json)
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+Run & build (frontend)
+1. cd frontend
+2. Install deps:
+   npm install
+3. Run dev server:
+   npm run dev
+4. Build for production:
+   npm run build
+5. Preview production build:
+   npm run preview
+6. Lint:
+   npm run lint
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+Notes & pointers
+- Routes are client-side using React Router (see [`App`](frontend/src/App.tsx)).
+- The mobile menu state and simple auth placeholder lives in [`Navbar`](frontend/src/components/Navbar.tsx).
+- The homepage hero uses a background image at [frontend/src/App.css](frontend/src/App.css) referencing [frontend/src/assets/watchBackground.jpg](frontend/src/assets/watchBackground.jpg).
+- Tailwind is wired via package.json plugins and the single import in [frontend/src/index.css](frontend/src/index.css). See [frontend/vite.config.ts](frontend/vite.config.ts) for plugin setup.
