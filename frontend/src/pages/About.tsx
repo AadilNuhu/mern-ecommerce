@@ -1,6 +1,15 @@
 import background from '../assets/watchBackground.1jpg.jpg'
+import dev from '../assets/dev.jpg'
+import dev1 from '../assets/dev1.jpg'
+import dev2 from '../assets/dev2.jpg'
 
 const About = () => {
+
+  const OurTeam = [
+    { name: 'Abdel Rashid', role: 'Founder & CEO', img: dev },
+    { name: 'Aadil Nuhu', role: 'Co-Founder & CEO', img: dev1 },
+    { name: 'Emma', role: 'CTO', img: dev2 },
+  ]
   return (
     <div className="bg-gray-50">
       {/* Hero Section */}
@@ -86,34 +95,19 @@ const About = () => {
             commerce, and building connections that last.
           </p>
         </div>
-        <div className="grid gap-8 md:grid-cols-3 max-w-5xl mx-auto">
-          <div className="bg-white rounded-lg shadow-md p-6">
-            <img
-              className="w-24 h-24 mx-auto rounded-full mb-4 object-cover"
-              src="https://source.unsplash.com/200x200/?person,ceo"
-              alt="CEO"
-            />
-            <h3 className="text-lg font-semibold">Alex Johnson</h3>
-            <p className="text-sm text-gray-500">Founder & CEO</p>
-          </div>
-          <div className="bg-white rounded-lg shadow-md p-6">
-            <img
-              className="w-24 h-24 mx-auto rounded-full mb-4 object-cover"
-              src="https://source.unsplash.com/200x200/?person,designer"
-              alt="Designer"
-            />
-            <h3 className="text-lg font-semibold">Sophia Lee</h3>
-            <p className="text-sm text-gray-500">Head of Design</p>
-          </div>
-          <div className="bg-white rounded-lg shadow-md p-6">
-            <img
-              className="w-24 h-24 mx-auto rounded-full mb-4 object-cover"
-              src="https://source.unsplash.com/200x200/?person,developer"
-              alt="Developer"
-            />
-            <h3 className="text-lg font-semibold">David Kim</h3>
-            <p className="text-sm text-gray-500">Lead Developer</p>
-          </div>
+        <div className="grid gap-8 md:grid-cols-3 text-center max-w-5xl mx-auto">
+          {OurTeam.map((member, index) => (
+            <div key={index} className="bg-white rounded-lg shadow-md p-6">
+              <img
+                className="w-24 h-24 mx-auto rounded-full mb-4 object-cover"
+                src={member.img}
+                alt="CEO"
+              />
+              <h3 className="text-lg font-semibold">{member.name}</h3>
+              <p className="text-sm text-gray-500">{member.role}</p>
+            </div>
+              ))}
+
         </div>
       </div>
 
@@ -134,7 +128,7 @@ const About = () => {
           Discover the products you love, backed by the people you trust.
         </p>
         <a
-          href="/shop"
+          href="/products"
           className="inline-block px-8 py-4 bg-white text-gray-600 font-semibold rounded-md shadow hover:bg-gray-100 transition"
         >
           Start Shopping
