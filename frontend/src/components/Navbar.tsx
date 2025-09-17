@@ -2,6 +2,7 @@ import { useState } from "react";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const auth = true
 
   return (
     <>
@@ -38,6 +39,19 @@ const Navbar = () => {
                 Contact
               </a>
             </div>
+
+            {/* login and signup or logout */}
+            {
+              !auth ?
+                <div>
+                  <a className="bg-red-500 p-2 rounded-md text-white font-medium" href="">Logout</a>
+                </div>
+                :
+                <div className="lg:gap-2 lg:flex md:flex md:gap-2 hidden">
+                  <a className="bg-gray-900 px-4 hover:bg-gray-900/70 py-2 rounded-md text-white font-medium" href="/login">Login</a>
+                  <a className="bg-gray-900 px-4 hover:bg-gray-900/70 py-2 rounded-md text-white font-medium" href="/signup">Signup</a>
+                </div>
+            }
 
             {/* Mobile menu button */}
             <div className="md:hidden">
@@ -132,6 +146,10 @@ const Navbar = () => {
               >
                 Contact
               </a>
+              <div className="flex gap-2">
+                  <a className="bg-gray-900 px-4 hover:bg-gray-900/70 py-2 rounded-md text-white font-medium" href="/login">Login</a>
+                  <a className="bg-gray-900 px-4 hover:bg-gray-900/70 py-2 rounded-md text-white font-medium" href="/signup">Signup</a>
+                </div>
             </nav>
           </div>
         </>
