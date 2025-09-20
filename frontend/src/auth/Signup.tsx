@@ -15,7 +15,7 @@ const Signup = () => {
         setMessage('')
         setError('')
         try {
-            await axios.post('http://localhost:3000/signup', {
+            await axios.post('http://localhost:9000/signup', {
                 username,
                 email,
                 password
@@ -27,9 +27,9 @@ const Signup = () => {
                 setMessage('')
                 navigate('/login')
             }, 2000);
-        } catch (err) {
+        } catch (err: any) {
             console.log(err);
-            const serverMsg =  "Couldn't Create Account"
+            const serverMsg = err?.response?.data?.message || err?.message || "Couldn't create account"
             setError(serverMsg)
             setTimeout(() => {
                 setError('')

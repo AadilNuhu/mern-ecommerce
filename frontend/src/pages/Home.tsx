@@ -1,12 +1,15 @@
 import { FaCar,FaStar,FaCreditCard } from "react-icons/fa";
 import FeaturedProducts from "./FeaturedProducts";
 import '../App.css'
+import { useAuth } from "../auth/auth";
 
 const Home = () => {
+  const {user} = useAuth()
   return (
     <div>
       {/* Hero Section */}
       <section className="hero-section min-h-screen flex flex-col items-center justify-center text-center px-6">
+        <h3 className="text-gray-100 font-bold text-3xl">{user ? `Welcome back, ${user.username}` : `Hello User`}</h3>
         <h1 className="text-6xl font-extrabold mb-4 text-white">Shop the Latest Trends</h1>
         <p className="text-gray-100 text-lg max-w-xl mb-6">
           Discover exclusive deals on clothing, accessories, and lifestyle

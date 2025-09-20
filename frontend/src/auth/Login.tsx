@@ -1,8 +1,11 @@
 import axios from 'axios'
 import { useState } from 'react'
+import {useAuth} from './auth'
 import { useNavigate } from 'react-router-dom'
 
 const Login = () => {
+    const {setUser} = useAuth()
+
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [message, setMessage] = useState('')
@@ -15,19 +18,25 @@ const Login = () => {
         setError('')
 
         try {
-            await axios.post('http://localhost:3000/login', {
+            const res = await axios.post('http://localhost:9000/login', {
                 email,
                 password
             })
-            setMessage("Login Successful")
-            setTimeout(() => {
-                setMessage('')
-                navigate('/')
-            }, 2000);
+            const user = res.data?.user
+            if (user) {
+                setUser(user)
+                setMessage("Login Successful")
+                setTimeout(() => {
+                    setMessage('')
+                    navigate('/')
+                }, 2000);
+            } else {
+                setError("Invalid server response")
+            }
 
-        } catch (error) {
+        } catch (error: any) {
             console.log(error);
-            setError("Login Failed")
+            setError(error?.response?.data?.message)
             setTimeout(() => {
                 setError('')
             }, 2000);

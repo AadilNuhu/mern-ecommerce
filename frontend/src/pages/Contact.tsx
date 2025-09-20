@@ -2,7 +2,7 @@ import { FaPhoneAlt, FaEnvelope, FaMapMarkerAlt, FaFacebook, FaTwitter, FaLinked
 
 const Contact = () => {
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-black via-gray-900 to-black p-6 text-white">
+    <div className="flex items-center justify-center min-h-screen dark:bg-gradient-to-br from-black via-gray-900 to-black p-6 text-white">
       <div className="w-full max-w-6xl bg-black border border-gray-800 shadow-2xl rounded-lg overflow-hidden grid grid-cols-1 md:grid-cols-2">
         
         {/* Left Side - Info */}
@@ -45,7 +45,7 @@ const Contact = () => {
         </div>
 
         {/* Right Side - Form */}
-        <div className="p-10 bg-gray-950">
+        <div className="p-10 bg-gray-100 dark:bg-gray-950">
           <form className="space-y-6" onSubmit={(e) => e.preventDefault()}>
             {/* Name */}
             <div className="flex flex-col">

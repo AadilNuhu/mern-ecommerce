@@ -1,8 +1,16 @@
 import { useState } from "react";
+import { useAuth } from "../auth/auth";
+import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const auth = true
+  const { user, setUser, isAuthenticated } = useAuth();
+  const navigate = useNavigate()
+
+  const logout = () => {
+    setUser(null)
+    navigate("/")
+  }
 
   return (
     <>
@@ -42,9 +50,10 @@ const Navbar = () => {
 
             {/* login and signup or logout */}
             {
-              !auth ?
-                <div>
-                  <a className="bg-red-500 p-2 rounded-md text-white font-medium" href="">Logout</a>
+              isAuthenticated ?
+                <div className="flex items-center gap-3">
+                  <div>Hello, {user?.username}</div>
+                  <button onClick={logout} className="bg-red-500 cursor-pointer p-2 rounded-md text-white font-medium">Logout</button>
                 </div>
                 :
                 <div className="lg:gap-2 lg:flex md:flex md:gap-2 hidden">
@@ -147,9 +156,9 @@ const Navbar = () => {
                 Contact
               </a>
               <div className="flex gap-2">
-                  <a className="bg-gray-900 px-4 hover:bg-gray-900/70 py-2 rounded-md text-white font-medium" href="/login">Login</a>
-                  <a className="bg-gray-900 px-4 hover:bg-gray-900/70 py-2 rounded-md text-white font-medium" href="/signup">Signup</a>
-                </div>
+                <a className="bg-gray-900 px-4 hover:bg-gray-900/70 py-2 rounded-md text-white font-medium" href="/login">Login</a>
+                <a className="bg-gray-900 px-4 hover:bg-gray-900/70 py-2 rounded-md text-white font-medium" href="/signup">Signup</a>
+              </div>
             </nav>
           </div>
         </>
