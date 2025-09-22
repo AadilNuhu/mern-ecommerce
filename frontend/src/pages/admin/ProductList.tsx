@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react"
 import axios from "axios"
 
-const Products = () => {
+const ProductList = () => {
   const [products, setProducts] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState("")
@@ -24,18 +24,20 @@ const Products = () => {
   return (
     <div>
       <div className="px-5 pb-5">
-        <h1 className="font-medium text-3xl text-center py-7">All Products</h1>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5" >
-          {products.map((product) => [
-            <div className="border border-gray-400 rounded-xl p-3" key={product._id}>
+        <div className="flex items-center justify-between px-10">
+          <h1 className="font-medium text-3xl text-center py-7">All Products</h1>
+          <a href="/admin010/admin999" className="font-medium">Dashboard</a>
+        </div>
+        <div className="" >
+          {products.map((product) => (
+            <div className="border border-gray-400 rounded-xl p-3 my-3" key={product._id}>
               <h3 className="font-medium">{product.productName}</h3>
-              <p className="text-gray-500 py-2">{product.description}</p>
+              <p className="text-gray-500">{product.description}</p>
               <div className="flex justify-between items-center">
-                <p className="text-green-400">{product.price}</p>
-                <button  className="bg-gray-900 cursor-pointer text-white p-2 rounded-xl">Add to cart</button>
+                <p>{product.price}</p>
               </div>
             </div>
-          ])}
+          ))}
         </div>
 
       </div>
@@ -43,4 +45,4 @@ const Products = () => {
   )
 }
 
-export default Products
+export default ProductList

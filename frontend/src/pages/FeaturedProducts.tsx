@@ -30,7 +30,7 @@ const FeaturedProducts = () => {
     },
   ];
   return (
-    <div className="p-10 pb-20">
+    <div className="p-5 md:p-10 pb-20">
       <h1 className="text-4xl font-bold text-center my-8">Featured Products</h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 px-4">
         {FeaturedProducts.map((product, index) => (

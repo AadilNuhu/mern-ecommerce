@@ -4,14 +4,14 @@ const bcrypt = require('bcrypt')
 const router = express.Router()
 
 // Get all users
-// router.get('/',  async (req, res) => {
-//     try {
-//         const user = await User.find()
-//         res.json(user)
-//     } catch (error) {
-//         res.status(400).json({message:error.message})
-//     }
-// })
+router.get('/',  async (req, res) => {
+    try {
+        const user = await User.find()
+        res.json(user)
+    } catch (error) {
+        res.status(400).json({message:error.message})
+    }
+})
 
 router.post('/', async (req,res) => {
     try {

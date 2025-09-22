@@ -51,9 +51,9 @@ const Navbar = () => {
             {/* login and signup or logout */}
             {
               isAuthenticated ?
-                <div className="flex items-center gap-3">
+                <div className="hidden md:flex items-center gap-3">
                   <div>Hello, {user?.username}</div>
-                  <button onClick={logout} className="bg-red-500 cursor-pointer p-2 rounded-md text-white font-medium">Logout</button>
+                  <button onClick={logout} className="bg-red-500 hover:bg-red-700 cursor-pointer p-2 rounded-md text-white font-medium">Logout</button>
                 </div>
                 :
                 <div className="lg:gap-2 lg:flex md:flex md:gap-2 hidden">
@@ -155,10 +155,15 @@ const Navbar = () => {
               >
                 Contact
               </a>
-              <div className="flex gap-2">
-                <a className="bg-gray-900 px-4 hover:bg-gray-900/70 py-2 rounded-md text-white font-medium" href="/login">Login</a>
-                <a className="bg-gray-900 px-4 hover:bg-gray-900/70 py-2 rounded-md text-white font-medium" href="/signup">Signup</a>
-              </div>
+              {isAuthenticated ?
+                <div className="flex items-center gap-3">
+                  <div>Hello, {user?.username}</div>
+                  <button onClick={logout} className="bg-red-500 hover:bg-red-700 cursor-pointer p-2 rounded-md text-white font-medium">Logout</button>
+                </div> :
+                <div className="flex gap-2">
+                  <a className="bg-gray-900 px-4 hover:bg-gray-900/70 py-2 rounded-md text-white font-medium" href="/login">Login</a>
+                  <a className="bg-gray-900 px-4 hover:bg-gray-900/70 py-2 rounded-md text-white font-medium" href="/signup">Signup</a>
+                </div>}
             </nav>
           </div>
         </>

@@ -13,6 +13,8 @@ app.use(cors())
 app.use('/login', require('./routes/Login'))
 app.use('/signup',require('./routes/Signup'))
 
+app.use('/products',require('./routes/Products'))
+
 app.get('/', (req,res) => {
     res.send('Homepage')
 })
