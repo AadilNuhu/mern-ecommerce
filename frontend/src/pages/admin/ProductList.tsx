@@ -1,8 +1,11 @@
 import { useState, useEffect } from "react"
 import axios from "axios"
 
+const productImageUrl = (img?: string | null) =>
+  img ? `http://localhost:9000/${img.replace(/^\/+/, "")}` : "https://via.placeholder.com/800x450?text=No+Image"
+
 const ProductList = () => {
-  const [products, setProducts] = useState([])
+  const [products, setProducts] = useState<Product[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState("")
 
@@ -15,7 +18,6 @@ const ProductList = () => {
         console.log(`Error fetching products ${err}`);
         setError("Failed to load products")
         setLoading(false)
-
       })
   }, [])
 
@@ -31,6 +33,7 @@ const ProductList = () => {
         <div className="" >
           {products.map((product) => (
             <div className="border border-gray-400 rounded-xl p-3 my-3" key={product._id}>
+              <img src={productImageUrl(product.image)} alt={product.productName || 'product'} className="w-full h-56 object-cover rounded-md" />
               <h3 className="font-medium">{product.productName}</h3>
               <p className="text-gray-500">{product.description}</p>
               <div className="flex justify-between items-center">
