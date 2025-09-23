@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useAuth } from "../auth/auth";
 import { useNavigate } from "react-router-dom";
+import { FiShoppingCart } from "react-icons/fi";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -53,6 +54,7 @@ const Navbar = () => {
               isAuthenticated ?
                 <div className="hidden md:flex items-center gap-3">
                   <div>Hello, {user?.username}</div>
+                  <a href="/cart" className="flex items-center px-3 hover:text-blue-400"><FiShoppingCart className="cursor-pointer hover:text-blue-400" /><div className="pl-1 pt-2">0</div></a>
                   <button onClick={logout} className="bg-red-500 hover:bg-red-700 cursor-pointer p-2 rounded-md text-white font-medium">Logout</button>
                 </div>
                 :
@@ -156,9 +158,12 @@ const Navbar = () => {
                 Contact
               </a>
               {isAuthenticated ?
-                <div className="flex items-center gap-3">
-                  <div>Hello, {user?.username}</div>
-                  <button onClick={logout} className="bg-red-500 hover:bg-red-700 cursor-pointer p-2 rounded-md text-white font-medium">Logout</button>
+                <div>
+                  <a href="/cart" className="flex items-center px-3 hover:text-blue-400"><FiShoppingCart className="cursor-pointer hover:text-blue-400" /><div className="pl-1 pt-2">0</div></a>
+                  <div className="flex items-center gap-3">
+                    <div>Hello, {user?.username}</div>
+                    <button onClick={logout} className="bg-red-500 hover:bg-red-700 cursor-pointer p-2 rounded-md text-white font-medium">Logout</button>
+                  </div>
                 </div> :
                 <div className="flex gap-2">
                   <a className="bg-gray-900 px-4 hover:bg-gray-900/70 py-2 rounded-md text-white font-medium" href="/login">Login</a>

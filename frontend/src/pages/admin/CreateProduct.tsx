@@ -1,5 +1,6 @@
 import { useState } from "react"
 import axios from "axios"
+import {AxiosError} from 'axios'
 import { useNavigate } from "react-router-dom"
 
 const CreateProduct = () => {
@@ -23,17 +24,16 @@ const CreateProduct = () => {
             }, 3000);
 
         } catch (error) {
-            console.log(error);
-            setMessage(error?.response?.data?.message)
-            setTimeout(() => {
-                setMessage("")
-            }, 3000);
+            const err = error as AxiosError<{ message?: string }>;
+            setMessage(err.response?.data?.message || "Something went wrong");
+
+            setTimeout(() => setMessage(""), 3000);
         }
     }
     return (
         <div className="flex justify-center items-center h-[90vh]">
             <div className="text-center p-10 shadow-2xl rounded-md w-[550px]">
-            <h1 className="text-3xl font-medium py-2">Create Product</h1>
+                <h1 className="text-3xl font-medium py-2">Create Product</h1>
                 <form className="" action="" onSubmit={onsubmit}>
                     {(message) && (
                         <p className="bg-gray-400/10 p-2 text-gray-400 rounded-md mb-2">{message}</p>
