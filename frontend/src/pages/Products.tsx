@@ -66,7 +66,7 @@ const Products = () => {
                 <img
                   src={productImageUrl(product.image)}
                   alt={product.productName || "product"}
-                  className="w-full h-48 object-cover rounded-md mb-3"
+                  className="w-full h-56 object-contain rounded-md mb-3"
                 />
                 <h3 className="font-medium text-lg mb-2">{product.productName}</h3>
                 <p className="text-gray-500 py-2">
