@@ -30,7 +30,7 @@ const CreateProduct = () => {
             setMessage("Product Created Successfully")
             setTimeout(() => {
                 setMessage("")
-                navigate('/admin010/admin999')
+                navigate('/admin010/admin999/productList')
             }, 2000);
 
         } catch (error) {
