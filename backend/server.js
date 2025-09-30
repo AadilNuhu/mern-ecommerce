@@ -15,6 +15,7 @@ app.use('/login', require('./routes/Login'))
 app.use('/signup',require('./routes/Signup'))
 
 app.use('/products',require('./routes/Products'))
+app.use('/carts', require('./routes/Cart'))
 
 app.get('/', (req,res) => {
     res.send('Homepage')
