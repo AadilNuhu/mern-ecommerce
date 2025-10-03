@@ -1,7 +1,17 @@
 import { useState } from "react";
+import { useAuth } from "../auth/auth";
+import { useNavigate } from "react-router-dom";
+import { FiShoppingCart } from "react-icons/fi";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const { user, setUser, isAuthenticated } = useAuth();
+  const navigate = useNavigate()
+
+  const logout = () => {
+    setUser(null)
+    navigate("/")
+  }
 
   return (
     <>
@@ -9,7 +19,7 @@ const Navbar = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between h-16 items-center">
             {/* Logo */}
-            <div className="text-2xl font-bold  text-blue-600">Ecommerce</div>
+            <div className="text-2xl font-bold  text-gray-600">Ecommerce</div>
 
             {/* Desktop menu */}
             <div className="hidden md:flex space-x-8">
@@ -38,6 +48,21 @@ const Navbar = () => {
                 Contact
               </a>
             </div>
+
+            {/* login and signup or logout */}
+            {
+              isAuthenticated ?
+                <div className="hidden md:flex items-center gap-3">
+                  <div>Hello, {user?.username}</div>
+                  <a href="/cart" className="flex items-center px-3 hover:text-blue-400"><FiShoppingCart className="cursor-pointer hover:text-blue-400" /><div className="pl-1 pt-2">0</div></a>
+                  <button onClick={logout} className="bg-red-500 hover:bg-red-700 cursor-pointer p-2 rounded-md text-white font-medium">Logout</button>
+                </div>
+                :
+                <div className="lg:gap-2 lg:flex md:flex md:gap-2 hidden">
+                  <a className="bg-gray-900 px-4 hover:bg-gray-900/70 py-2 rounded-md text-white font-medium" href="/login">Login</a>
+                  <a className="bg-gray-900 px-4 hover:bg-gray-900/70 py-2 rounded-md text-white font-medium" href="/signup">Signup</a>
+                </div>
+            }
 
             {/* Mobile menu button */}
             <div className="md:hidden">
@@ -132,6 +157,18 @@ const Navbar = () => {
               >
                 Contact
               </a>
+              {isAuthenticated ?
+                <div>
+                  <a href="/cart" className="flex items-center px-3 hover:text-blue-400"><FiShoppingCart className="cursor-pointer hover:text-blue-400" /><div className="pl-1 pt-2">0</div></a>
+                  <div className="flex items-center gap-3">
+                    <div>Hello, {user?.username}</div>
+                    <button onClick={logout} className="bg-red-500 hover:bg-red-700 cursor-pointer p-2 rounded-md text-white font-medium">Logout</button>
+                  </div>
+                </div> :
+                <div className="flex gap-2">
+                  <a className="bg-gray-900 px-4 hover:bg-gray-900/70 py-2 rounded-md text-white font-medium" href="/login">Login</a>
+                  <a className="bg-gray-900 px-4 hover:bg-gray-900/70 py-2 rounded-md text-white font-medium" href="/signup">Signup</a>
+                </div>}
             </nav>
           </div>
         </>

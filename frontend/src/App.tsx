@@ -1,27 +1,31 @@
-import "./App.css";
-import Navbar from "./components/Navbar";
-import Footer from "./components/Footer";
-import Contact from "./pages/Contact";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Home from "./pages/Home";
-import About from "./pages/About";
-import Products from "./pages/Products";
+import { BrowserRouter, Routes, Route } from "react-router-dom"
+import { publicRoutes, adminRoutes, fallbackRoute } from "./routes"
+import { MainLayout } from "./layouts/MainLayout"
+import { AdminLayout } from "./layouts/AdminLayout"
 
 function App() {
   return (
-    <>
-      <BrowserRouter>
-        <Navbar />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/products" element={<Products />} />
-          <Route path="/contact" element={<Contact />} />
-        </Routes>
-        <Footer />
-      </BrowserRouter>
-    </>
-  );
+    <BrowserRouter>
+      <Routes>
+        {/* Public routes */}
+        <Route element={<MainLayout />}>
+          {publicRoutes.map(({ path, element }) => (
+            <Route key={path} path={path} element={element} />
+          ))}
+        </Route>
+
+        {/* Admin routes */}
+        <Route element={<AdminLayout />}>
+          {adminRoutes.map(({ path, element }) => (
+            <Route key={path} path={path} element={element} />
+          ))}
+        </Route>
+
+        {/* 404 fallback */}
+        <Route path={fallbackRoute.path} element={fallbackRoute.element} />
+      </Routes>
+    </BrowserRouter>
+  )
 }
 
-export default App;
+export default App
