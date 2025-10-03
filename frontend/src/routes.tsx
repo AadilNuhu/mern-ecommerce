@@ -15,6 +15,8 @@ import { OrderList } from "./pages/admin/OrderList"
 import ProductList from "./pages/admin/ProductList"
 import UserList from "./pages/admin/UserList"
 import CreateProduct from "./pages/admin/CreateProduct"
+import UpdateProduct from "./pages/admin/UpdateProduct"
+import DeleteProduct from "./pages/admin/DeleteProduct"
 
 export const publicRoutes = [
   { path: "/", element: <Home /> },
@@ -35,6 +37,8 @@ export const adminRoutes = [
   { path: `${adminBase}/productList`, element: <ProductList /> },
   { path: `${adminBase}/userList`, element: <UserList /> },
   { path: `${adminBase}/adminLogin`, element: <AdminLogin /> },
+  { path: `${adminBase}/:id/edit`, element: <UpdateProduct /> },
+  { path: `${adminBase}/:id/delete`, element: <DeleteProduct /> },
 ]
 
 export const fallbackRoute = { path: "*", element: <NotFound /> }

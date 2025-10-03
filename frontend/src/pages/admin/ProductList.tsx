@@ -13,6 +13,13 @@ const productImageUrl = (img?: string | null) =>
   img ? `http://localhost:9000/${img.replace(/^\/+/, "")}` : "https://via.placeholder.com/800x450?text=No+Image"
 
 const ProductList = () => {
+  interface Product {
+    _id: string;
+    productName: string;
+    description: string;
+    price: number;
+    image?: string; // optional if some products may not have images
+  }
   const [products, setProducts] = useState<Product[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState("")
@@ -94,82 +101,45 @@ const ProductList = () => {
         <div className="text-center mb-4">
           <span className="bg-gray-800 text-white px-4 py-2 rounded-md inline-block">{feedback}</span>
         </div>
-      )}
-
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        {products.map((product) => (
-          <div
-            className="border border-gray-400 rounded-xl p-3 my-3 shadow-sm animate-fade-in"
-            key={product._id}
-          >
-            <img
-              src={productImageUrl(product.image)}
-              alt={product.productName || "product"}
-              className="w-56 h-56 object-cover rounded-md mx-auto"
-            />
-
-            {editingId === product._id ? (
-              <div className="mt-3">
-                <input
-                  type="text"
-                  name="productName"
-                  value={editData.productName}
-                  onChange={handleChange}
-                  className="border p-1 w-full mb-2 rounded"
-                  placeholder="Product Name"
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-6">
+          {products.map((product) => (
+            <div
+              key={product._id}
+              className="bg-white border border-gray-200 rounded-2xl shadow-md hover:shadow-xl transition-shadow duration-300 overflow-hidden"
+            >
+              {/* Product Image */}
+              <div className="relative w-full h-56 overflow-hidden rounded-t-2xl">
+                <img
+                  src={productImageUrl(product.image)}
+                  alt={product.productName || "product"}
+                  className="w-full h-full object-cover transform hover:scale-105 transition-transform duration-500"
                 />
-                <textarea
-                  name="description"
-                  value={editData.description}
-                  onChange={handleChange}
-                  className="border p-1 w-full mb-2 rounded"
-                  placeholder="Description"
-                />
-                <input
-                  type="number"
-                  name="price"
-                  value={editData.price}
-                  onChange={handleChange}
-                  className="border p-1 w-full mb-2 rounded"
-                  placeholder="Price"
-                />
-                <div className="flex justify-end gap-2">
-                  <button
-                    onClick={() => handleUpdate(product._id)}
-                    className="bg-green-600 text-white px-3 py-1 rounded hover:bg-green-700 transition"
-                  >
-                    Save
-                  </button>
-                  <button
-                    onClick={() => setEditingId(null)}
-                    className="bg-gray-500 text-white px-3 py-1 rounded hover:bg-gray-600 transition"
-                  >
-                    Cancel
-                  </button>
-                </div>
               </div>
-            ) : (
-              <div className="mt-3">
-                <h3 className="font-medium text-lg">{product.productName}</h3>
-                <p className="text-gray-500 mb-2">{product.description}</p>
-                <div className="flex justify-between items-center">
-                  <p className="font-semibold">
-                    ${Number(product.price).toFixed(2)}
-                  </p>
-                  <div className="flex gap-2">
-                    <button
-                      onClick={() => startEdit(product)}
-                      className="bg-blue-600 text-white px-2 py-1 rounded text-sm hover:bg-blue-700 transition"
-                    >
-                      Edit
-                    </button>
-                    <button
-                      onClick={() => setDeleteId(product._id)}
-                      className="bg-red-600 text-white px-2 py-1 rounded text-sm hover:bg-red-700 transition"
-                    >
-                      Delete
-                    </button>
-                  </div>
+
+              {/* Product Content */}
+              <div className="p-4 flex flex-col gap-2">
+                <h3 className="text-lg font-semibold text-gray-800 truncate">
+                  {product.productName}
+                </h3>
+                <p className="text-sm text-gray-500 line-clamp-2">
+                  {product.description}
+                </p>
+                <p className="text-xl font-bold text-indigo-600">{product.price}</p>
+
+                {/* Actions */}
+                <div className="mt-4 flex justify-between">
+                  <a
+                    href={`/admin010/admin999/${product._id}/edit`}
+                    className="px-4 py-2 text-sm font-medium bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors"
+                  >
+                    Edit
+                  </a>
+                  <a
+                    href={`/admin010/admin999/${product._id}/delete`}
+                    className="px-4 py-2 text-sm font-medium bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors"
+                  >
+                    Delete
+                  </a>
                 </div>
               </div>
             )}
@@ -201,7 +171,7 @@ const ProductList = () => {
             </div>
           </div>
         </div>
-      )}
+      </div>
     </div>
   )
 }
