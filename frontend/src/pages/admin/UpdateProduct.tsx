@@ -17,7 +17,7 @@ const UpdateProduct = () => {
   useEffect(() => {
     if (!id) return;
     axios
-      .get(`http://localhost:9000/products/${id}`)
+      .get(`http://localhost:5000/products/${id}`)
       .then((res) => {
         const product = res.data;
         setProductName(product.productName);

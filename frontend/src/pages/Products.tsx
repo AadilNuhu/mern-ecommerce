@@ -9,8 +9,14 @@ type Product = {
   image?: string | null
 }
 
-const productImageUrl = (img?: string | null) =>
-  img ? `http://localhost:9000/${img.replace(/^\/+/, "")}` : "https://via.placeholder.com/400x300?text=No+Image"
+const productImageUrl = (img?: string | null, apiBase?: string) => {
+  if (!img) return "https://via.placeholder.com/400x300?text=No+Image"
+  // if already absolute URL, return as-is
+  if (/^https?:\/\//i.test(img)) return img
+  const cleaned = img.replace(/^\/+/, "")
+  const base = apiBase ?? "http://localhost:9000"
+  return `${base}/${cleaned}`
+}
 
 function previewText(text = "", wordLimit = 10) {
   const words = text.trim().split(/\s+/)
@@ -22,15 +28,26 @@ const Products = () => {
   const [products, setProducts] = useState<Product[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState("")
+  const [apiBase, setApiBase] = useState<string | undefined>(undefined)
   const [expanded, setExpanded] = useState<Record<string, boolean>>({})
 
   useEffect(() => {
     let mounted = true
-    axios
-      .get<Product[]>("http://localhost:9000/products")
+    axios.get<Product[]>("http://localhost:5000/products")
       .then((res) => {
         if (!mounted) return
         setProducts(res.data ?? [])
+        // derive API base from request URL so images use the same origin/port
+        try {
+          if (res.config && res.config.url) {
+            const origin = new URL(res.config.url).origin
+            setApiBase(origin)
+          } else if (res.request && res.request.responseURL) {
+            setApiBase(new URL(res.request.responseURL).origin)
+          }
+        } catch {
+          // fallback: do nothing, productImageUrl will use default
+        }
       })
       .catch((err) => {
         console.error("Error fetching products", err)
@@ -64,9 +81,9 @@ const Products = () => {
             return (
               <div className="border border-gray-300 rounded-xl p-4 shadow-sm" key={product._id}>
                 <img
-                  src={productImageUrl(product.image)}
+                  src={productImageUrl(product.image, apiBase)}
                   alt={product.productName || "product"}
-                  className="w-full h-56 object-contain rounded-md mb-3"
+                  className="w-full h-56 object-cover rounded-md mb-3"
                 />
                 <h3 className="font-medium text-lg mb-2">{product.productName}</h3>
                 <p className="text-gray-500 py-2">

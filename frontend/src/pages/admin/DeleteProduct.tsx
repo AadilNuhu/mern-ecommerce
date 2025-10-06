@@ -13,7 +13,7 @@ const DeleteProduct = () => {
 
     const deleteProduct = async () => {
       try {
-        await axios.delete(`http://localhost:9000/products/${id}`)
+        await axios.delete(`http://localhost:5000/products/${id}`)
         // After successful delete, navigate back to product list
         navigate("/admin010/admin999/productList")
       } catch (err) {

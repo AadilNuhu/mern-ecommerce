@@ -11,21 +11,21 @@ router.post('/', async (req,res) => {
     }
     try {
         // Check if user exist
-        const emailExist = await User.findOne({email})
-        if (!emailExist) {
-            return res.status(400).json({message:`Email doesn't exist`})
+        const Email = await User.findOne({email})
+        if (!Email) {
+            return res.status(401).json({message:`Invalid Credentials`})
         }
         // compare password
-        const validPassword = await bcrypt.compare(password, emailExist.password)
-        if(!validPassword){
-            return res.status(400).json({message: "Wrong Password"})
+        const Password = await bcrypt.compare(password, Email.password)
+        if(!Password){
+            return res.status(401).json({message: "Invalid Credentials"})
         }
-        const user = { id:emailExist._id, email:emailExist.email, username:emailExist.username }
+        const user = { id:Email._id, email:Email.email, username:Email.username }
         return res.status(200).json({message:"Login Successful", user})
 
     } catch (error) {
         console.log(error);
-        return res.status(400).json({error:"server error"})
+        return res.status(404).json({error:"server error"})
     }
 })
 

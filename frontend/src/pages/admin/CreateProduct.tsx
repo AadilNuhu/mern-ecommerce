@@ -22,7 +22,7 @@ const CreateProduct = () => {
             form.append('price', price)
             if (image) form.append('image', image)
 
-            await axios.post("http://localhost:9000/products", form, {
+            await axios.post("http://localhost:5000/products", form, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }

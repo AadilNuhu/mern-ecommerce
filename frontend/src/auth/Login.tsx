@@ -18,7 +18,7 @@ const Login = () => {
         setError('')
 
         try {
-            const res = await axios.post('http://localhost:9000/login', {
+            const res = await axios.post('http://localhost:5000/login', {
                 email,
                 password
             })
@@ -34,7 +34,7 @@ const Login = () => {
                 setError("Invalid server response")
             }
 
-        } catch (error: any) {
+        } catch (error) {
             console.log(error);
             setError(error?.response?.data?.message)
             setTimeout(() => {

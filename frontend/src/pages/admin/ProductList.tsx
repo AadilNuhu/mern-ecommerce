@@ -1,8 +1,13 @@
 import { useState, useEffect } from "react"
 import axios from "axios"
 
-const productImageUrl = (img?: string | null) =>
-  img ? `http://localhost:9000/${img.replace(/^\/+/, "")}` : "https://via.placeholder.com/800x450?text=No+Image"
+const productImageUrl = (img?: string | null, apiBase?: string) => {
+  if (!img) return "https://via.placeholder.com/800x450?text=No+Image"
+  if (/^https?:\/\//i.test(img)) return img
+  const cleaned = img.replace(/^\/+/, "")
+  const base = apiBase ?? "http://localhost:9000"
+  return `${base}/${cleaned}`
+}
 
 const ProductList = () => {
   interface Product {
@@ -15,11 +20,24 @@ const ProductList = () => {
   const [products, setProducts] = useState<Product[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState("")
+  const [apiBase, setApiBase] = useState<string | undefined>(undefined)
 
   useEffect(() => {
-    axios.get("http://localhost:9000/products")
+    axios.get("http://localhost:5000/products")
       .then(res => {
         setProducts(res.data)
+        // derive API base (origin) from the request so images use same host/port
+        try {
+          if (res.config?.url) setApiBase(new URL(res.config.url).origin)
+          else {
+            const req = (res.request as unknown)
+            if (req && typeof req === 'object' && 'responseURL' in req && typeof (req).responseURL === 'string') {
+              setApiBase(new URL((req).responseURL).origin)
+            }
+          }
+        } catch {
+          // ignore and fallback to default
+        }
         setLoading(false)
       }).catch(err => {
         console.log(`Error fetching products ${err}`);
@@ -46,8 +64,9 @@ const ProductList = () => {
               {/* Product Image */}
               <div className="relative w-full h-56 overflow-hidden rounded-t-2xl">
                 <img
-                  src={productImageUrl(product.image)}
+                  src={productImageUrl(product.image, apiBase)}
                   alt={product.productName || "product"}
+                  onError={(e) => { (e.currentTarget as HTMLImageElement).src = 'https://via.placeholder.com/800x450?text=No+Image' }}
                   className="w-full h-full object-cover transform hover:scale-105 transition-transform duration-500"
                 />
               </div>

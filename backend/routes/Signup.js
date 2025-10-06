@@ -7,9 +7,9 @@ const router = express.Router()
 router.get('/',  async (req, res) => {
     try {
         const user = await User.find()
-        res.json(user)
+        res.status(200).json(user)
     } catch (error) {
-        res.status(400).json({message:error.message})
+        res.status(500).json({message:error.message})
     }
 })
 
@@ -21,8 +21,8 @@ router.post('/', async (req,res) => {
         }
 
         // Checking if user already exist 
-        const userExist = await User.findOne({email})
-        if(userExist){
+        const user = await User.findOne({email})
+        if(user){
             res.status(401).json({message: "User Already exits"})
         }
         // Hashing the password
@@ -34,7 +34,7 @@ router.post('/', async (req,res) => {
         res.status(200).json({message: "Account created successfully",user:newUser})
     } catch (error) {
         console.log(error);
-        res.status(400).json({message:"error"})
+        res.status(500).json({message:"error"})
     }
 })
 
