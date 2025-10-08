@@ -18,6 +18,7 @@ const productImageUrl = (img?: string | null, apiBase?: string) => {
   return `${base}/${cleaned}`
 }
 
+
 function previewText(text = "", wordLimit = 10) {
   const words = text.trim().split(/\s+/)
   if (words.length <= wordLimit) return { preview: text, isTruncated: false }
@@ -33,6 +34,7 @@ const Products = () => {
 
   useEffect(() => {
     let mounted = true
+
     axios.get<Product[]>("http://localhost:5000/products")
       .then((res) => {
         if (!mounted) return
@@ -48,6 +50,7 @@ const Products = () => {
         } catch {
           // fallback: do nothing, productImageUrl will use default
         }
+
       })
       .catch((err) => {
         console.error("Error fetching products", err)
@@ -84,6 +87,7 @@ const Products = () => {
                   src={productImageUrl(product.image, apiBase)}
                   alt={product.productName || "product"}
                   className="w-full h-56 object-cover rounded-md mb-3"
+
                 />
                 <h3 className="font-medium text-lg mb-2">{product.productName}</h3>
                 <p className="text-gray-500 py-2">
