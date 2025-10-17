@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react"
 import axios from "axios"
+const apiUrl = import.meta.env.VITE_API_URL;
+
 
 type Product = {
   _id: string
@@ -14,8 +16,7 @@ const productImageUrl = (img?: string | null, apiBase?: string) => {
   // if already absolute URL, return as-is
   if (/^https?:\/\//i.test(img)) return img
   const cleaned = img.replace(/^\/+/, "")
-  const base = apiBase ?? "http://localhost:9000"
-  return `${base}/${cleaned}`
+  return `${apiBase}/${cleaned}`
 }
 
 
@@ -35,7 +36,7 @@ const Products = () => {
   useEffect(() => {
     let mounted = true
 
-    axios.get<Product[]>("http://localhost:5000/products")
+    axios.get<Product[]>(`${apiUrl}/products`)
       .then((res) => {
         if (!mounted) return
         setProducts(res.data ?? [])

@@ -1,5 +1,27 @@
 import { useState, useEffect } from "react"
 import axios from "axios"
+import { useState, useEffect } from "react"
+import axios from "axios"
+const apiUrl = import.meta.env.VITE_API_URL;
+
+
+type Product = {
+  _id: string
+  productName: string
+  description?: string | null
+  price?: string | number
+  image?: string | null
+}
+
+const productImageUrl = (img?: string | null, apiBase?: string) => {
+  if (!img) return "https://via.placeholder.com/400x300?text=No+Image"
+  // if already absolute URL, return as-is
+  if (/^https?:\/\//i.test(img)) return img
+  const cleaned = img.replace(/^\/+/, "")
+  const base = apiBase ?? "http://localhost:9000"
+  return `${base}/${cleaned}`
+}
+
 
 const productImageUrl = (img?: string | null, apiBase?: string) => {
   if (!img) return "https://via.placeholder.com/800x450?text=No+Image"
@@ -23,7 +45,7 @@ const ProductList = () => {
   const [apiBase, setApiBase] = useState<string | undefined>(undefined)
 
   useEffect(() => {
-    axios.get("http://localhost:5000/products")
+    axios.get(`${apiUrl}/products`)
       .then(res => {
         setProducts(res.data)
         // derive API base (origin) from the request so images use same host/port
