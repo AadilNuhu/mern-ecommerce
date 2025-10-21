@@ -10,12 +10,10 @@ router.post('/', async (req,res) => {
         return res.status(400).json({message: "All Fields Required"})
     }
     try {
-        // Check if user exist
         const Email = await User.findOne({email})
         if (!Email) {
             return res.status(401).json({message:`Invalid Credentials`})
         }
-        // compare password
         const Password = await bcrypt.compare(password, Email.password)
         if(!Password){
             return res.status(401).json({message: "Invalid Credentials"})

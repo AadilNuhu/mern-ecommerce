@@ -3,7 +3,6 @@ const express = require('express')
 const bcrypt = require('bcrypt')
 const router = express.Router()
 
-// Get all users
 router.get('/',  async (req, res) => {
     try {
         const user = await User.find()
@@ -20,12 +19,10 @@ router.post('/', async (req,res) => {
             res.status(400).json({message: "All fields required"})
         }
 
-        // Checking if user already exist 
         const user = await User.findOne({email})
         if(user){
             res.status(401).json({message: "User Already exits"})
         }
-        // Hashing the password
         const hashedPassword = await bcrypt.hash(password, 10)
 
         const newUser = new User({ username, email, password:hashedPassword})
