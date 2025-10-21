@@ -22,19 +22,19 @@ let currentUser: User = (() => {
   }
 })()
 
-const subscribers = new Set<(u: User) => void>()
+const subscribers = new Set<(new_user: User) => void>()
 
-function updateCurrentUser(u: User, ttlMs?: number) {
-  currentUser = u
-  if (u) {
+function updateCurrentUser(new_user: User, ttlMs?: number) {
+  currentUser = new_user
+  if (new_user) {
     const expires = ttlMs ? Date.now() + ttlMs : undefined
-    localStorage.setItem("user", JSON.stringify({ value: u, expires }))
+    localStorage.setItem("user", JSON.stringify({ value: new_user, expires }))
   } else {
     localStorage.removeItem("user")
   }
   subscribers.forEach((cb) => {
     try {
-      cb(u)
+      cb(new_user)
     } catch {
       /* ignore subscriber errors */
     }
@@ -42,8 +42,8 @@ function updateCurrentUser(u: User, ttlMs?: number) {
 }
 
 // exported setter accepts optional ttl (ms). If not provided, uses DEFAULT_TTL_MS.
-export function setUser(u: User, ttlMs: number = DEFAULT_TTL_MS) {
-  updateCurrentUser(u, u ? ttlMs : undefined)
+export function setUser(new_user: User, ttlMs: number = DEFAULT_TTL_MS) {
+  updateCurrentUser(new_user, new_user ? ttlMs : undefined)
 }
 
 export function getUser(): User {
@@ -54,13 +54,13 @@ export function useAuth() {
   const [user, setLocalUser] = useState<User>(currentUser)
 
   useEffect(() => {
-    const handler = (u: User) => setLocalUser(u)
+    const handler = (new_user: User) => setLocalUser(new_user)
     subscribers.add(handler)
     return () => void subscribers.delete(handler)
   }, [])
 
-  const setUserWrapper = (u: User, ttlMs?: number) => {
-    updateCurrentUser(u, u ? (ttlMs ?? DEFAULT_TTL_MS) : undefined)
+  const setUserWrapper = (new_user: User, ttlMs?: number) => {
+    updateCurrentUser(new_user, new_user ? (ttlMs ?? DEFAULT_TTL_MS) : undefined)
   }
 
   return {

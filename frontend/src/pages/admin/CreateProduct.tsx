@@ -2,6 +2,27 @@ import { useState } from "react"
 import axios from "axios"
 import { AxiosError } from 'axios'
 import { useNavigate } from "react-router-dom"
+import { useState, useEffect } from "react"
+import axios from "axios"
+const apiUrl = import.meta.env.VITE_API_URL;
+
+
+type Product = {
+  _id: string
+  productName: string
+  description?: string | null
+  price?: string | number
+  image?: string | null
+}
+
+const productImageUrl = (img?: string | null, apiBase?: string) => {
+  if (!img) return "https://via.placeholder.com/400x300?text=No+Image"
+  // if already absolute URL, return as-is
+  if (/^https?:\/\//i.test(img)) return img
+  const cleaned = img.replace(/^\/+/, "")
+  return `${apiBase}/${cleaned}`
+}
+
 
 const CreateProduct = () => {
     const navigate = useNavigate()
@@ -22,7 +43,7 @@ const CreateProduct = () => {
             form.append('price', price)
             if (image) form.append('image', image)
 
-            await axios.post("http://localhost:9000/products", form, {
+            await axios.post(`${apiUrl}/products`, form, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }

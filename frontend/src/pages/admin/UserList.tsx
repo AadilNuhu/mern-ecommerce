@@ -26,7 +26,7 @@ const UserList = () => {
 
     const fetchUsers = async () => {
       try {
-        const res = await axios.get<User[]>("http://localhost:9000/signup")
+        const res = await axios.get<User[]>("http://localhost:5000/signup")
         if (!mounted) return
         setUsers(res.data ?? [])
       } catch (err: unknown) {

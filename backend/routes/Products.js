@@ -5,16 +5,14 @@ const product = require("../models/Products");
 const fs = require("fs");
 const path = require("path");
 
-// ensure uploads directory exists
 const UPLOAD_DIR = path.join(__dirname, "..", "uploads");
 if (!fs.existsSync(UPLOAD_DIR)) {
   fs.mkdirSync(UPLOAD_DIR, { recursive: true });
 }
 
-// multer set up: save into backend/uploads with a timestamped filename
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, UPLOAD_DIR); // images stored in backend/uploads
+    cb(null, UPLOAD_DIR); 
   },
   filename: (req, file, cb) => {
     const safeName = Date.now() + "-" + file.originalname.replace(/\s+/g, "-");
@@ -24,9 +22,8 @@ const storage = multer.diskStorage({
 
 const upload = multer({
   storage,
-  limits: { fileSize: 5 * 1024 * 1024 }, // 5MB limit
+  limits: { fileSize: 5 * 1024 * 1024 }, 
   fileFilter: (req, file, cb) => {
-    // only accept common image mimetypes
     if (!file.mimetype.startsWith("image/")) {
       return cb(new Error("Only image files are allowed"));
     }
@@ -34,7 +31,6 @@ const upload = multer({
   },
 });
 
-// Creating Products (multipart/form-data)
 router.post("/", upload.single("image"), async (req, res) => {
   const { productName, description, price } = req.body;
 
@@ -51,7 +47,7 @@ router.post("/", upload.single("image"), async (req, res) => {
         ? path
             .relative(path.join(__dirname, ".."), req.file.path)
             .replace(/\\/g, "/")
-        : null, // store relative path like uploads/filename
+        : null, 
     });
     return res
       .status(201)
@@ -62,7 +58,6 @@ router.post("/", upload.single("image"), async (req, res) => {
   }
 });
 
-// Get all products
 router.get("/", async (req, res) => {
   try {
     const getAllProducts = await product.find();
@@ -73,7 +68,6 @@ router.get("/", async (req, res) => {
   }
 });
 
-// update a product by id
 router.put("/:id", upload.single("image"), async (req, res) => {
   try {
     const { id } = req.params;
@@ -85,7 +79,6 @@ router.put("/:id", upload.single("image"), async (req, res) => {
 
     const updateData = { productName, description, price };
 
-    // If an image is uploaded, add it to updateData
     if (req.file) {
       updateData.image = path
         .relative(path.join(__dirname, ".."), req.file.path)
@@ -106,7 +99,6 @@ router.put("/:id", upload.single("image"), async (req, res) => {
   }
 });
 
-// Get a product by id
 router.get("/:id", async (req, res) => {
   try {
     const { id } = req.params;
@@ -120,7 +112,6 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-// Delete a product by id
 router.delete("/:id", async (req, res) => {
   try {
     const { id } = req.params;

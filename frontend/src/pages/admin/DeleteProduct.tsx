@@ -1,6 +1,28 @@
 import axios from "axios"
 import { useEffect, useState } from "react"
 import { useParams, useNavigate } from "react-router-dom"
+import { useState, useEffect } from "react"
+import axios from "axios"
+const apiUrl = import.meta.env.VITE_API_URL;
+
+
+type Product = {
+  _id: string
+  productName: string
+  description?: string | null
+  price?: string | number
+  image?: string | null
+}
+
+const productImageUrl = (img?: string | null, apiBase?: string) => {
+  if (!img) return "https://via.placeholder.com/400x300?text=No+Image"
+  // if already absolute URL, return as-is
+  if (/^https?:\/\//i.test(img)) return img
+  const cleaned = img.replace(/^\/+/, "")
+  const base = apiBase ?? "http://localhost:9000"
+  return `${base}/${cleaned}`
+}
+
 
 const DeleteProduct = () => {
   const { id } = useParams()
@@ -13,7 +35,7 @@ const DeleteProduct = () => {
 
     const deleteProduct = async () => {
       try {
-        await axios.delete(`http://localhost:9000/products/${id}`)
+        await axios.delete(`${apiUrl}/products/${id}`)
         // After successful delete, navigate back to product list
         navigate("/admin010/admin999/productList")
       } catch (err) {
